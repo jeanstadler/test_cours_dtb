@@ -3,6 +3,7 @@ import express from "express";
 import HomepageRouter from "../router/homepage_router.js";
 import UserRouter from "../router/user_router.js";
 import SecurityRouter from "../router/security_router.js";
+import CoursRouter from "../router/cours_router.js";
 class Server {
     app = express();
     router = express.Router();
@@ -15,6 +16,7 @@ class Server {
     routersList = () => {
         this.router.use("/", new HomepageRouter().getRoutesList());
         this.router.use("/user", new UserRouter().getRouterList());
+        this.router.use("/cours", new CoursRouter().getRouterList());
         this.router.use("/", new SecurityRouter().getRoutesList());
     };
     createServer = () => {

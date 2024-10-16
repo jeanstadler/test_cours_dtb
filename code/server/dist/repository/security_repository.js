@@ -12,7 +12,7 @@ class SecurityRepository {
         try {
             // début de la transaction
             await transaction.beginTransaction();
-            const query = `INSERT INTO ${process.env.MYSQL_DB}.${this.table} VALUES (NULL, :firstname, :email, :password, 2)`;
+            const query = `INSERT INTO ${process.env.MYSQL_DB}.${this.table} VALUES (NULL, :firstname, :email, :password, :role_id)`;
             // par default le role_id est 2 
             // l'envoie de la requête à la base de donnée
             const result = await connection.execute(query, data);
@@ -40,7 +40,6 @@ class SecurityRepository {
             return fullResult;
         }
         catch (error) {
-            console.log("error security_repository");
             return error;
         }
     };

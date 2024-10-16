@@ -7,11 +7,11 @@ import type User from "../model/user.js";
 
 
 
-class UserRepository{
+class UserRepository {
     private mySQLService = new MysqlService();
-	private table = "user";
+    private table = "user";
 
-    public selectAll =async ():Promise<QueryResult | unknown> => {
+    public selectAll = async (): Promise<QueryResult | unknown> => {
         // public selectAll = async (): Promise<QueryResult | unknown> => {
         const connection: Pool = await this.mySQLService.connect();
         const query = `SELECT ${this.table}.* FROM ${process.env.MYSQL_DB}.${this.table};`
@@ -21,34 +21,36 @@ class UserRepository{
             return result.shift();
         } catch (error) {
             return error;
-            
+
         }
     }
-    public selectOne =async (data:object):Promise<QueryResult | unknown>=>{
+    public selectOne = async (data: object): Promise<QueryResult | unknown> => {
         const connection: Pool = await this.mySQLService.connect();
         const query = `SELECT ${this.table}.* FROM ${process.env.MYSQL_DB}.${this.table} WHERE ${this.table}.id = :id;`
 
         try {
-            const result = await connection.execute(query,data);
+            const result = await connection.execute(query, data);
             return result.shift();
         } catch (error) {
             return error;
-            
+
         }
     }
-    public create = async (data:User) =>{
+    public create = async (data: User) => {
 
         const connection: Pool = await this.mySQLService.connect();
         const transaction = await connection.getConnection();
         try {
             await transaction.beginTransaction();
-            
+
             const query = `INSERT INTO ${process.env.MYSQL_DB}.${this.table} VALUE (NULL, :firstname, :email, :password, :role_id);`;
-            const results = await connection.execute(query,data);
+            console.log(data);
+            const results = await connection.execute(query, data);
             await transaction.commit();
             return results;
 
         } catch (error) {
+            console.log("ici problème ", error);
             await transaction.rollback();
             return error;
         }

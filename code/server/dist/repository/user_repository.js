@@ -31,11 +31,13 @@ class UserRepository {
         try {
             await transaction.beginTransaction();
             const query = `INSERT INTO ${process.env.MYSQL_DB}.${this.table} VALUE (NULL, :firstname, :email, :password, :role_id);`;
+            console.log(data);
             const results = await connection.execute(query, data);
             await transaction.commit();
             return results;
         }
         catch (error) {
+            console.log("ici problème ", error);
             await transaction.rollback();
             return error;
         }

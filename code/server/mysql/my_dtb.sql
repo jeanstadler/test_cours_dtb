@@ -45,8 +45,8 @@ VALUES
 
 INSERT INTO dtb.user
 VALUES
-    (NULL, "jean","test@gmail.com","mot_de_passe123","2"),
-    (NULL, "rayou","rayou@gmail.com","mot_de_passe_rayou","1");
+    (NULL, "admin","admin@admin","admin1234","1"),
+    (NULL, "rayou","rayou@gmail.com","mot_de_passe_rayou","2");
 
 INSERT INTO dtb.eleve
 VALUES
@@ -69,15 +69,3 @@ VALUES
 
     
 
-
--- select
---     prof.name,
---     user.firstname
--- from
---     dtb.cours
--- join
---     dtb.prof on cours.prof_id = prof.id
--- join
---     dtb.eleve on cours.eleve_id = eleve.id
--- join
---     dtb.user on eleve.user_id = user.id;

@@ -40,6 +40,7 @@ class SecurityController {
         ;
         const isPasswordIsValid = await argon2.verify(user.password, req.body.password);
         if (!isPasswordIsValid) {
+            console.log("erreo ici");
             return res.status(400).json({ status: 400, message: "error" });
         }
         const token = jwt.sign({ user: user, }, process.env.SECRET, { expiresIn: "1h" });

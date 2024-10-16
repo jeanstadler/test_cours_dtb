@@ -2,27 +2,29 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken"
 
-class AuthorizationMiddleware{
-    public authorize = (roles:string[])=>{
-        return  (req:Request, res:Response, next:NextFunction) =>{
-            const token:string = (req.headers.authorization as string).split(" ")[1] as string;
+class AuthorizationMiddleware {
+    public authorize = (roles: string[]) => {
+        return (req: Request, res: Response, next: NextFunction) => {
+            const token: string = (req.headers.authorization as string).split(" ")[1] as string;
             try {
-                const verifyToken = jwt.verify(token,process.env.SECRET as string);
+                const verifyToken = jwt.verify(token, process.env.SECRET as string);
             } catch (error) {
-                return res.status(401).json({status:401,message:"Unauthorized"});
+                return res.status(401).json({ status: 401, message: "Unauthorized" });
             }
             const data = jwt.decode(token) as JwtPayload;
-            if (roles.indexOf(data.user.role.name)=== -1){
-                return res.status(401).json({status:401,message:"Unauthorized"});
-            } 
+            if (roles.indexOf(data.user.role.name) === -1) {
+                return res.status(401).json({ status: 401, message: "Unauthorized" });
+            }
+
+
             next();
         };
     }
-    
-    
-    
 
-    };
+
+
+
+};
 
 
 export default AuthorizationMiddleware;
